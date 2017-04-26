@@ -13,13 +13,13 @@ All files used by WebDir are hidden (a dot before the name)
 You need to have MAMP (OS X), LAMP (Linux) or WAMP (Windows) installed
 
 Linux
-```
-sudo apt-get install apache2 php5 libapache2-mod-php5
+```sh
+$ sudo apt-get install apache2 php5 libapache2-mod-php5
 ```
 
 You need to enable mod_rewrite
-```
-sudo a2enmod rewrite
+```sh
+$ sudo a2enmod rewrite
 ```
 
 NB: You do not need MySQL
@@ -31,13 +31,13 @@ To install WebDir you need to clone this repository on your web directory.
 
 It's important to clone directly in your web directory because the git files need to be in your directory root
 
-```
-git clone http://git.stevecohen.fr/public-projects/webdir.git /var/www
+```xml
+$ git clone http://git.stevecohen.fr/public-projects/webdir.git /var/www
 ```
 
 Configure your virtualhost (replace /var/www by your directory path)
 
-```
+```conf
 <VirtualHost *:80>
     DocumentRoot /var/www
     ServerName mydomain.ltd
@@ -66,8 +66,8 @@ Configure your virtualhost (replace /var/www by your directory path)
 
 To update WebDir you just need to pull
 
-```
-cd /var/www && git pull
+```sh
+$ cd /var/www && git pull
 ```
 
 ## Security
