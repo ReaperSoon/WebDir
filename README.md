@@ -31,13 +31,13 @@ To install WebDir you need to clone this repository on your web directory.
 
 It's important to clone directly in your web directory because the git files need to be in your directory root
 
-```xml
+```sh
 $ git clone http://git.stevecohen.fr/public-projects/webdir.git /var/www
 ```
 
 Configure your virtualhost (replace /var/www by your directory path)
 
-```conf
+```xml
 <VirtualHost *:80>
     DocumentRoot /var/www
     ServerName mydomain.ltd
