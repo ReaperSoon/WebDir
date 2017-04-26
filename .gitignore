@@ -5,12 +5,9 @@
 !.error.php
 !.gitignore
 !.images
+!.images/*
 !.index.php
 !.prettify.sh
 !.sorttable.js
 !.style.css
-!.test.html
 !.video.js
-
-# ...even if they are in subdirectories
-!*/
