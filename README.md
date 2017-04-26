@@ -1,7 +1,7 @@
 # WebDir
 
 WebDir is a based PHP Web GUI to navigate through a directory on your serveur.
-You can access all sub-directories, download files in one click and use embeded player to watch your movies or listen your musics.
+You can access all sub-directories, download files in one click and use embeded player for movies and musics
 
 ## Getting Started
 
@@ -31,7 +31,6 @@ To install WebDir you need to clone this repository on your web directory.
 It's important to clone directly in your web directory because the git files need to be in your directory root
 
 ```
-cd /var/www
 git clone http://git.stevecohen.fr/public-projects/webdir.git /var/www
 ```
 
@@ -39,25 +38,25 @@ Configure your virtualhost (replace /var/www by your directory path)
 
 ```
 <VirtualHost *:80>
-        DocumentRoot /var/www
-        ServerName mydomain.ltd
+    DocumentRoot /var/www
+    ServerName mydomain.ltd
 
-        <Directory />
-                <IfModule mod_rewrite.c>
-                        RewriteCond %{REQUEST_FILENAME} !-f
-                        RewriteCond %{REQUEST_URI} !index
-                        RewriteEngine on
-                        RewriteRule ^(.*)$ /.index.php
-                </IfModule>
-                #Options FollowSymLinks
-                Options Indexes FollowSymLinks Includes ExecCGI
-                AllowOverride All
-                Order deny,allow
-                Allow from all
-        </Directory>
+    <Directory />
+        <IfModule mod_rewrite.c>
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteCond %{REQUEST_URI} !index
+            RewriteEngine on
+            RewriteRule ^(.*)$ /.index.php
+        </IfModule>
+        #Options FollowSymLinks
+        Options Indexes FollowSymLinks Includes ExecCGI
+        AllowOverride All
+        Order deny,allow
+        Allow from all
+    </Directory>
 
-        ErrorLog ${APACHE_LOG_DIR}/error.log
-        CustomLog ${APACHE_LOG_DIR}/access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
 </VirtualHost>
 ```
 
