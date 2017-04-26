@@ -8,6 +8,10 @@ You can access all sub-directories, download files in one click and use embeded 
 Juste a little configuration and it's ready to use!
 All files used by WebDir are hidden (a dot before the name)
 
+### Screenshots
+
+[![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042605545612824615001890.png)](http://nsm07.casimages.com/img/2017/04/26//17042605545612824615001890.png) [![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042605545612824615001891.png)](http://nsm07.casimages.com/img/2017/04/26//17042605545612824615001891.png)
+
 ### Prerequisites
 
 You need to have MAMP (OS X), LAMP (Linux) or WAMP (Windows) installed
