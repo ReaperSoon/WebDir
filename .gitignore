@@ -1,0 +1,16 @@
+# Ignore everything
+*
+
+# But not these files...
+!.error.php
+!.gitignore
+!.images
+!.index.php
+!.prettify.sh
+!.sorttable.js
+!.style.css
+!.test.html
+!.video.js
+
+# ...even if they are in subdirectories
+!*/
