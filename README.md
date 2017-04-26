@@ -6,6 +6,7 @@ You can access all sub-directories, download files in one click and use embeded 
 ## Getting Started
 
 Juste a little configuration and it's ready to use!
+All files used by WebDir are hidden (a dot before the name)
 
 ### Prerequisites
 
@@ -68,6 +69,30 @@ To update WebDir you just need to pull
 ```
 cd /var/www && git pull
 ```
+
+## Security
+
+You can protect WebDir using authentification.
+
+Edit .htaccess and uncomment this lines :
+
+```
+#AuthType Basic
+#AuthName "Protected Area"
+#AuthUserFile /var/www/.htpasswd
+#Require valid-user
+```
+
+Adapt AuthUserFile to the path you want to store your credentials (default is the same directory as .htaccess)
+
+The default .htpasswd is filled with default credentials :
+
+```
+Username: webdir
+Password: webdir
+```
+
+To generate your credentials you can use [this online tool](http://www.htaccesstools.com/htpasswd-generator/)
 
 ## Built With
 
