@@ -158,7 +158,7 @@ table tr td:first-of-type a[href$=".mp3"],
 table tr td:first-of-type a[href$=".ogg"], 
 table tr td:first-of-type a[href$=".aac"], 
 table tr td:first-of-type a[href$=".wma"] 
-{background-image: url(./.images/audio.png);}
+{background-image: url(./.images/sound.png);}
 
 /* web pages */
 table tr td:first-of-type a[href$=".html"],
