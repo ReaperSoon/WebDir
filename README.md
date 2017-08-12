@@ -1,4 +1,4 @@
-# WebDir
+[![N|Solid](http://nsm07.casimages.com/img/2017/04/26/17042603415512824615001554.png)](http://git.stevecohen.fr/public-projects/webdir)
 
 WebDir is a based PHP Web GUI to navigate through a directory on your serveur.
 You can access all sub-directories, download files in one click and use embeded player for movies and musics
@@ -8,18 +8,22 @@ You can access all sub-directories, download files in one click and use embeded 
 Juste a little configuration and it's ready to use!
 All files used by WebDir are hidden (a dot before the name)
 
+### Screenshots
+
+[![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042605545612824615001890.png)](http://nsm07.casimages.com/img/2017/04/26//17042605545612824615001890.png) [![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042606061712824615001943.png)](http://nsm07.casimages.com/img/2017/04/26//17042606061712824615001943.png)
+
 ### Prerequisites
 
 You need to have MAMP (OS X), LAMP (Linux) or WAMP (Windows) installed
 
 Linux
-```
-sudo apt-get install apache2 php5 libapache2-mod-php5
+```sh
+$ sudo apt-get install apache2 php5 libapache2-mod-php5
 ```
 
 You need to enable mod_rewrite
-```
-sudo a2enmod rewrite
+```sh
+$ sudo a2enmod rewrite
 ```
 
 NB: You do not need MySQL
@@ -31,13 +35,13 @@ To install WebDir you need to clone this repository on your web directory.
 
 It's important to clone directly in your web directory because the git files need to be in your directory root
 
-```
-git clone http://git.stevecohen.fr/public-projects/webdir.git /var/www
+```sh
+$ git clone http://git.stevecohen.fr/public-projects/webdir.git /var/www
 ```
 
 Configure your virtualhost (replace /var/www by your directory path)
 
-```
+```xml
 <VirtualHost *:80>
     DocumentRoot /var/www
     ServerName mydomain.ltd
@@ -66,8 +70,8 @@ Configure your virtualhost (replace /var/www by your directory path)
 
 To update WebDir you just need to pull
 
-```
-cd /var/www && git pull
+```sh
+$ cd /var/www && git pull
 ```
 
 ## Security
