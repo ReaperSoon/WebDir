@@ -107,7 +107,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Steve Cohen** - *Initial work* - [PurpleBooth](http://git.stevecohen.fr/explore/projects)
 
-See also the list of [contributors](http://git.stevecohen.fr/public-projects/webdir/contributors) who participated in this project.
+See also the list of [contributors](http://git.stevecohen.fr/public-projects/webdir/CONTRIBUTORS) who participated in this project.
 
 ## License
 
