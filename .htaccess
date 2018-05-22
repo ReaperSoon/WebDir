@@ -11,7 +11,14 @@ ErrorDocument 504 /.error.php
 
 DirectoryIndex index.htm index.html index.shtml index.php default.php .index.php
 
-#AuthType Basic
-#AuthName "Protected Area"
-#AuthUserFile /var/www/.htpasswd
-#Require valid-user
+AuthType Basic
+AuthName "Protected Area"
+AuthUserFile /var/www/.htpasswd
+<RequireAny>
+# To disable password authentification comment the line below
+    Require valid-user
+# To disable IP authentification comment the line below
+    Require ip 127.0.0.1
+# You can allow multiple ips by adding a new line like this :
+#    Require ip xxx.xxx.xxx.xxx
+</RequireAny>

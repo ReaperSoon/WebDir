@@ -76,25 +76,18 @@ $ cd /var/www && git pull
 
 ## Security
 
-You can protect WebDir using authentification.
+To modify your WebDir security options, edit .htaccess :
 
-Edit .htaccess and uncomment this lines :
 
-```
-#AuthType Basic
-#AuthName "Protected Area"
-#AuthUserFile /var/www/.htpasswd
-#Require valid-user
-```
-
-Adapt AuthUserFile to the path you want to store your credentials (default is the same directory as .htaccess)
-
-The default .htpasswd is filled with default credentials :
+The default credentials :
 
 ```
 Username: webdir
 Password: webdir
 ```
+
+Moreover you can allow access by IP.
+127.0.0.1 is allowed by default. Edit .htaccess to add/remove IPs
 
 To generate your credentials you can use [this online tool](http://www.htaccesstools.com/htpasswd-generator/)
 
@@ -114,7 +107,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 * **Steve Cohen** - *Initial work* - [PurpleBooth](http://git.stevecohen.fr/explore/projects)
 
-See also the list of [contributors](http://git.stevecohen.fr/public-projects/webdir/contributors) who participated in this project.
+See also the list of [contributors](http://git.stevecohen.fr/public-projects/webdir/CONTRIBUTORS) who participated in this project.
 
 ## License
 
