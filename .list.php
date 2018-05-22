@@ -35,6 +35,7 @@ $pageName = urldecode(end($uri_array));
        }
                ?>
   </h1>
+<a href="/rss"><img class="rss" src=".images/rss.png" height="16" width="16"></a>
 
 	
 	<?php if($pageName != "") echo "<a class=\"back\" href=\"../\">Back</a>" ?>

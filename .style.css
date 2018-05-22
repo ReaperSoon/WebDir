@@ -191,3 +191,8 @@ table tr.dir td:first-of-type a
     width: 90%;
 }
 
+.rss {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+}
