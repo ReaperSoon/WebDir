@@ -19,8 +19,13 @@ $pageName = urldecode(end($uri_array));
 	?>
    </title>
 
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css">
    <link rel="stylesheet" href="/.style.css">
-   <script src="/.sorttable.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script>
+<script src="/.sorttable.js"></script>
    <script src="/.video.js"></script>
 </head>
 
@@ -31,15 +36,26 @@ $pageName = urldecode(end($uri_array));
        if($pageName != "") {
        echo($pageName);
        } else {
-       echo "Main directory";
+       echo "Alibaba Directory";
        }
                ?>
   </h1>
-<a href="/rss"><img class="rss" src=".images/rss.png" height="16" width="16"></a>
+<div id="menu">
+<?php
+foreach($config->menu as $menu){
+   echo '<a href="'.$menu->url.'" target="'.($menu->tab == true ? "_blank" : "parent").'" class="'.($menu->iframe == true ? "oniframe" : "").'"><img src="'.$menu->image.'"></a>';
+}
+?>
+</div>
+<?php
+if ($config->enableRSS == true) {
+echo '<a href="/rss"><img class="rss" src="/.images/rss.png" height="16" width="16"></a>';
+}
+?>
 
 	
 	<?php if($pageName != "") echo "<a class=\"back\" href=\"../\">Back</a>" ?>
-	<table class="sortable">
+	<table id="uploadFile" class="sortable dropzone">
 	    <thead>
 		<tr>
 			<th>Filename</th>
@@ -49,7 +65,7 @@ $pageName = urldecode(end($uri_array));
 			<th>Embeded player</th>
 		</tr>
 	    </thead>
-	    <tbody><?php
+	    <tbody class=""><?php
 
 	// Adds pretty filesizes
 	function pretty_filesize($file) {
@@ -191,6 +207,7 @@ $pageName = urldecode(end($uri_array));
 
 	    </tbody>
 	</table>
+	<div id="upload-preview" class="dropzone"></div>
 	<div class="media-container">
 	  <div id="video-name"></div>
 	  <video id="video-player" src="" controls>

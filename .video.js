@@ -54,3 +54,31 @@ function easeOutCuaic(t){
     t--;
     return t*t*t+1;
 }
+$(document).ready(function(){
+    jQuery( "#menu a.oniframe" ).click(function(event) {
+        event.preventDefault();
+        jQuery.magnificPopup.open({
+          items: {              
+            src: jQuery(this).attr('href'),          
+            type: 'iframe'
+        }
+    });
+    });
+    Dropzone.autoDiscover = false;
+
+    var dropzone = new Dropzone("#uploadFile", {
+       previewsContainer: "#upload-preview",
+       url: "/upload",
+       clickable: false,
+       ignoreHiddenFiles: true,
+       init: function() {
+          this.on("success", function(file, responseText) {
+            file.previewTemplate.appendChild(document.createTextNode(responseText));
+        });
+      }
+  });
+    dropzone.on('sending', function(file, xhr, formData){
+        formData.append('filepath', file.fullPath);
+        formData.append('path', location.pathname.substring(1));
+    });
+});

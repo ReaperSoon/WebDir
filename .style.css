@@ -196,3 +196,71 @@ table tr.dir td:first-of-type a
     right: 10px;
     top: 10px;
 }
+
+#menu {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    -webkit-column-count: 3; /* Chrome, Safari, Opera */
+    -moz-column-count: 3; /* Firefox */
+    column-count: 3;
+}
+#menu > a {
+    display: block;
+    margin-bottom: 5px; 
+}
+#menu > a > img {
+   height: 16px;
+   width: 16px;
+}
+
+.mfp-iframe-holder .mfp-content {
+    line-height: 0;
+    max-width: inherit;
+    width: 70% !important;
+    height: 90% !important;
+}
+
+/* DropZone */
+
+.dropzone > *,
+.dropzone::after {
+ -webkit-transition: opacity .2s ease-in-out;
+  -moz-transition: opacity .2s ease-in-out;
+  -ms-transition: opacity .2s ease-in-out;
+  -o-transition: opacity .2s ease-in-out;
+  transition: opacity .2s ease-in-out;
+}
+.dz-default.dz-message {
+    display: none;
+}
+.dropzone {
+    position: relative;
+    border: none;
+    min-height: 0;
+    padding: 0;
+}
+.dropzone::after {
+    content: "Drag & Drop here";
+    position: absolute;
+    color: gray;
+    font-size: 24px;
+    width: 100%;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+}
+.dropzone.dz-drag-hover::after {
+    opacity: 1;
+}
+.dropzone.dz-drag-hover {
+    border: dashed 2px gray;
+}
+
+.dropzone.dz-drag-hover > * {
+    opacity: 0;
+}
+.dropzone .dz-preview {
+    color: red;
+}
