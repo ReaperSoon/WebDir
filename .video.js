@@ -69,6 +69,7 @@ $(document).ready(function(){
     var dropzone = new Dropzone("#uploadFile", {
        previewsContainer: "#upload-preview",
        url: "/upload",
+       maxFilesize: 100000,
        clickable: false,
        ignoreHiddenFiles: true,
        init: function() {
@@ -78,7 +79,7 @@ $(document).ready(function(){
       }
   });
     dropzone.on('sending', function(file, xhr, formData){
-        formData.append('filepath', file.fullPath);
+        formData.append('filepath', typeof file.fullPath !== 'undefined' ? file.fullPath : file.name);
         formData.append('path', location.pathname.substring(1));
     });
 });

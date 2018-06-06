@@ -3,14 +3,15 @@
      
     if (!empty($_FILES)) {
 	$storeFolder = urldecode($_POST['path']);
-         
+        
         $tempFile = $_FILES['file']['tmp_name'];
           
         $targetPath = dirname( __FILE__ ) . $ds . $storeFolder . $ds;
         
         $fullPath = $storeFolder.rtrim($_POST['filepath'], "/.");
         $folder = substr($fullPath, 0, strrpos($fullPath, "/"));
-        
+       
+ 
         if (!is_dir($folder)) {
             $old = umask(0);
             mkdir($folder, 0777, true);
