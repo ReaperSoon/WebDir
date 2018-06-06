@@ -13,7 +13,7 @@ All files used by WebDir are hidden (a dot before the name)
 [![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042605545612824615001890.png)](http://nsm07.casimages.com/img/2017/04/26//17042605545612824615001890.png) [![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042606061712824615001943.png)](http://nsm07.casimages.com/img/2017/04/26//17042606061712824615001943.png)
 
 ### Demo
-<img src="https://stevecohen.fr/dl/WebDir-Demo-720.gif" width="200px">
+https://www.youtube.com/watch?v=witBmEQnzqw
 
 ### Prerequisites
 
