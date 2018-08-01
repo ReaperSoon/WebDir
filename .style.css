@@ -250,6 +250,7 @@ table tr.dir td:first-of-type a
     top: 50%;
     transform: translateY(-50%);
     opacity: 0;
+    pointer-events: none;
 }
 .dropzone.dz-drag-hover::after {
     opacity: 1;
