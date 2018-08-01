@@ -3,11 +3,17 @@
 	margin:0;
 }
 
+html {
+    height: 100%;
+    background-image: url('https://images.unsplash.com/photo-1497197246330-b9cafd652212?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjMyOTg4fQ&s=99f0ee84b8817de389d056aeea51fd1e');
+    background-size: cover;
+}
+
 body {
 	color: #333;
 	font: 14px Sans-Serif;
 	padding: 50px;
-	background: #eee;
+	background: transparent;
 }
 
 h1 {
@@ -24,7 +30,7 @@ h2 {
 #container {
 	box-shadow: 0 5px 10px -5px rgba(0,0,0,0.5);
 	position: relative;
-	background: white; 
+	background: rgba(255, 255, 255, 0.5);
 }
 
 .back {
@@ -101,7 +107,7 @@ td:not(:first-of-type) a {
 } 
 
 tr:nth-of-type(odd) {
-	background-color: #E6E6E6;
+	background-color: rgba(230, 230, 230, 0.5);
 }
 
 tr:hover td {
@@ -239,6 +245,7 @@ table tr.dir td:first-of-type a
     border: none;
     min-height: 0;
     padding: 0;
+    background: rgba(255, 255, 255, .5) !important;
 }
 .dropzone::after {
     content: "Drag & Drop here";
