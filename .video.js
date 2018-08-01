@@ -82,4 +82,16 @@ $(document).ready(function(){
         formData.append('filepath', typeof file.fullPath !== 'undefined' ? file.fullPath : file.name);
         formData.append('path', location.pathname.substring(1));
     });
+
+    /* Get background image */
+    $.ajax({
+        dataType: "json",
+        url: 'https://api.unsplash.com/photos/random?query=travel&featured&orientation=landscape',
+        headers: {
+            "Authorization": "Client-ID e1c4ece99d2ca64e5f541de11c16d66529394c3084ae2f6e988ca1b86212fee6"
+        },
+        success: function(result) {
+            $('html').css("background-image", "url('" + result.urls.raw + "')");
+        }
+    });
 });
