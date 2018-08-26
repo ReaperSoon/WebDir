@@ -1,5 +1,7 @@
 <?php
-$uri_array = explode('/',$_SERVER['REQUEST_URI']);
+$uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
+$uri = $uri_parts[0];
+$uri_array = explode('/',$uri);
 
 $configJson = file_get_contents(".config");
 $config = json_decode($configJson);
