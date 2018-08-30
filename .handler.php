@@ -23,23 +23,30 @@ class FlxZipArchive extends ZipArchive {
     } 
 }
 
+function GetDirectorySize($path){
+    $bytestotal = 0;
+    $path = realpath($path);
+    if($path!==false && $path!='' && file_exists($path)){
+        foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
+            $bytestotal += $object->getSize();
+        }
+    }
+    return $bytestotal;
+}
+
 if (isset($_GET['action'])) {
     switch ($_GET['action']) {
         case 'download':
             $dirtodl = urldecode($_GET['dir']);
             $parts = explode('/', $dirtodl);
-            $zipname = '/tmp/webzir-zip/'.$parts[count($parts)-1].".zip";
+            $filename = $parts[count($parts)-1].".zip";
+            $mime = "application/zip";
+            header("Content-Type: " . $mime);
+            header("Content-length: " . GetDirectorySize($dirtodl));
+            header('Content-Disposition: attachment; filename="' . $filename . '"');
+            $cmd = "zip -qr - \"" . $dirtodl . "\"";
 
-            $za = new FlxZipArchive;
-            $res = $za->open($zipname, ZipArchive::CREATE);
-            if ($res === TRUE)    {
-                $za->addDir($dirtodl, basename($dirtodl)); $za->close();
-                header('Content-Type: application/zip');
-                header("Content-Disposition: attachment; filename = $zipname");
-                header('Content-Length: ' . filesize($zipname));
-                header("Location: $zipname");
-            }
-            else  { echo 'Could not create a zip archive';}
+            passthru($cmd);
         break;
         case 'rename':
             $oldname = urldecode($_GET['oldname']);

@@ -7,13 +7,13 @@ $pageName = urldecode(end($uri_array));
 ?>
 
 <?php 
-	$ch = curl_init("https://api.unsplash.com/photos/random?query=landscape&featured&orientation=landscape");
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-	    'Authorization: Client-ID e1c4ece99d2ca64e5f541de11c16d66529394c3084ae2f6e988ca1b86212fee6'
-	));
-	$unsplash = json_decode(curl_exec($ch));
-	curl_close($ch);
+$ch = curl_init("https://api.unsplash.com/photos/random?query=landscape&featured&orientation=landscape");
+curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+	'Authorization: Client-ID e1c4ece99d2ca64e5f541de11c16d66529394c3084ae2f6e988ca1b86212fee6'
+));
+$unsplash = json_decode(curl_exec($ch));
+curl_close($ch);
 ?>
 
 <html style="background-image: <?php echo $unsplash->urls->full ?>">
@@ -79,8 +79,24 @@ $pageName = urldecode(end($uri_array));
 			<tbody class=""><?php
 
 	// Adds pretty filesizes
-			function pretty_filesize($file) {
-				$size=filesize("." . urldecode($_SERVER['REQUEST_URI']) . $file);
+			function GetDirectorySize($path){
+				$bytestotal = 0;
+				$path = realpath($path);
+				if($path!==false && $path!='' && file_exists($path)){
+					foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
+						$bytestotal += $object->getSize();
+					}
+				}
+				return $bytestotal;
+			}
+
+			function pretty_filesize($file, $directory = false) {
+				$size = 0;
+				if ($directory) {
+					$size = GetDirectorySize("." . urldecode($_SERVER['REQUEST_URI']) . $file);
+				}else {
+					$size=filesize("." . urldecode($_SERVER['REQUEST_URI']) . $file);
+				}
 				if($size<1024){$size=$size." Bytes";}
 				elseif(($size<1048576)&&($size>1023)){$size=round($size/1024, 1)." KB";}
 				elseif(($size<1073741824)&&($size>1048575)){$size=round($size/1048576, 1)." MB";}
@@ -141,7 +157,7 @@ $pageName = urldecode(end($uri_array));
 					{
 						$extname="&lt;Directory&gt;";
 						$extn="&lt;Directory&gt;";
-						$size="&lt;Directory&gt;";
+						$size=pretty_filesize($dirArray[$index], true);
 						$sizekey="0";
 						$class="dir";
 
@@ -205,17 +221,17 @@ $pageName = urldecode(end($uri_array));
 						echo("<td sorttable_customkey='$sizekey'><a href='./$namehref'>$size</a></td>");
 						echo("<td sorttable_customkey='$timekey'><a href='./$namehref'>$modtime</a></td>");
 						echo '<td class="item-menu">'.
-								(
-									(in_array($extn, $embeddableVideoExts)) ?
-									'<a class="embed" onclick="playVideo(\'./'.$namehref.'\')"></a>' :
-									((in_array($extn, $embeddableAudioExts)) ?
-									'<a class="embed" onclick="playAudio(\'./'.$namehref.'\')"></a>' : '')
-								).
-								((is_dir("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index])) ?
-								'<a href="/handler?action=download&dir=' . rawurlencode("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index]) . '" class="download"></a>' : '').
-								'<a onclick="renameFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="edit"></a>'.
-								'<a onclick="deleteFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="delete"></a>'.
-							"</td>";
+						(
+							(in_array($extn, $embeddableVideoExts)) ?
+							'<a class="embed" onclick="playVideo(\'./'.$namehref.'\')"></a>' :
+							((in_array($extn, $embeddableAudioExts)) ?
+								'<a class="embed" onclick="playAudio(\'./'.$namehref.'\')"></a>' : '')
+						).
+						((is_dir("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index])) ?
+							'<a href="/handler?action=download&dir=' . rawurlencode("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index]) . '" class="download"></a>' : '').
+						'<a onclick="renameFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="edit"></a>'.
+						'<a onclick="deleteFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="delete"></a>'.
+						"</td>";
 						echo("</tr>");
 					}
 				}
