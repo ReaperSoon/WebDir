@@ -5,16 +5,21 @@ array_pop($uri_array);
 
 $pageName = urldecode(end($uri_array));
 
-$ch = curl_init("https://api.unsplash.com/photos/random?query=landscape&featured&orientation=landscape");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-	'Authorization: Client-ID e1c4ece99d2ca64e5f541de11c16d66529394c3084ae2f6e988ca1b86212fee6'
-));
-$unsplash = json_decode(curl_exec($ch));
-curl_close($ch);
+$background = $config->background->url;
+if ($config->background->random == true) {
+	$ch = curl_init("https://api.unsplash.com/photos/random?query=landscape&featured&orientation=landscape");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+	curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+		'Authorization: Client-ID e1c4ece99d2ca64e5f541de11c16d66529394c3084ae2f6e988ca1b86212fee6'
+	));
+	$unsplash = json_decode(curl_exec($ch));
+	curl_close($ch);
+	$background = $unsplash->urls->full;
+}
+
 ?>
 
-<html style="background-image: <?php echo $unsplash->urls->full ?>">
+<html style="background-image: url('<?php echo $background; ?>')">
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="/.favicon.ico">
@@ -76,7 +81,6 @@ curl_close($ch);
 			</thead>
 			<tbody class=""><?php
 
- 	// Checks to see if veiwing hidden files is enabled
 			if($_SERVER['QUERY_STRING']=="hidden")
 				{$hide="";
 			$ahref="./";
@@ -86,7 +90,6 @@ curl_close($ch);
 			$ahref="./?hidden";
 			$atext="Show";}
 
-	 // Opens directory
 			$myDirectory=opendir("./".urldecode($_SERVER['REQUEST_URI']));
 
 			while($entryName=readdir($myDirectory)) {
@@ -94,39 +97,29 @@ curl_close($ch);
 			} 
 
 
-	// Closes directory
 			closedir($myDirectory);
 
-	// Counts elements in array
 			$indexCount=count($dirArray);
 
-	// Sorts files
 			sort($dirArray);
 
-	// Loops through the array of files
 			for($index=0; $index < $indexCount; $index++) {
 				$filePath = "." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index];
 				$isDir = is_dir($filePath);
 
-	// Decides if hidden files should be displayed, based on query above.
 				if(substr("$dirArray[$index]", 0, 1)!=$hide) {
 
-	// Resets Variables
 					$favicon="";
 					$class="file";
 
-	// Gets File Names
 					$name=$dirArray[$index];
 					$namehref=$dirArray[$index];
 					$modtime = date("M j Y g:i A", filemtime($filePath));
 					$timekey=date("YmdHis", filemtime($filePath));
 
 
-       // Array containing all embeddable videos exts
 					$embeddableVideoExts = array( "ogv", "mov", "mp4", "mkv", "webm" );
-       // Array containing all embeddable audio exts
 					$embeddableAudioExts = array( "mp3", "wav", "ogg" );
-	// Separates directories, and performs operations on those directories
 					if($isDir)
 					{
 						$extname="&lt;Directory&gt;";
@@ -135,23 +128,18 @@ curl_close($ch);
 						$sizekey="0";
 						$class="dir";
 
-			// Gets favicon.ico, and displays it, only if it exists.
 						if(file_exists("$namehref/favicon.ico"))
 						{
 							$favicon=" style='background-image:url($namehref/favicon.ico);'";
 							$extn="&lt;Website&gt;";
 						}
 
-			// Cleans up . and .. directories
 						if($name=="."){$name=". (Current Directory)"; $extn="&lt;System Dir&gt;"; $favicon=" style='background-image:url($namehref/.favicon.ico);'";}
 							if($name==".."){$name=".. (Parent Directory)"; $extn="&lt;System Dir&gt;";}
 						}
 
-	// File-only operations
 						else{
-			// Gets file extension
 							$extn=pathinfo($filePath, PATHINFO_EXTENSION);
-			// Prettifies file type
 							switch ($extn){
 								case "png": $extname="PNG Image"; break;
 								case "jpg": $extname="JPEG Image"; break;
@@ -183,12 +171,10 @@ curl_close($ch);
 								default: if($extn!=""){$extname=strtoupper($extn)." File";} else{$extname="Unknown";} break;
 							}
 
-			// Gets and cleans up file size
 							$size=pretty_filesize($filePath);
 							$sizekey=filesize($filePath);
 						}
 
-	// Output
 						echo("<tr class='$class'>");
 						echo("<td><a href='./" . rawurlencode($namehref) . "' $favicon class='name'>$name</a></td>");
 						echo("<td><span class='ext'>$extname</span></td>");
@@ -225,5 +211,13 @@ curl_close($ch);
 			<div>
 				<!--<h2><?php echo("<a href='$ahref'>$atext hidden files</a>"); ?></h2>-->
 			</div>
-		</body>
-		</html>
+		</div>
+	</div>
+
+	<?php
+	if ($config->background->random == true && $config->background->showCopyright == true) {
+		echo "<span class=\"bg-copyright\"><a href=\"".$unsplash->links->html."\">Photo</a> by <a href=\"".$unsplash->user->links->html."\">".$unsplash->user->name."</a> on <a href=\"https://unsplash.com\">Unsplash</a></span>";
+	}
+	?>
+</body>
+</html>

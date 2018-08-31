@@ -322,3 +322,14 @@ table tr.dir td:first-of-type a
 .item-menu a.delete {
     background-image: url('./.images/delete.png');
 }
+
+.bg-copyright {
+    background: rgba(255, 255, 255, .4);
+    padding: 5px;
+    color: black;
+}
+
+.bg-copyright a {
+    color: black;
+    text-decoration: underline;
+}
