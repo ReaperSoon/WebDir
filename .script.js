@@ -120,6 +120,21 @@ function deleteFile(path, filename) {
     }
 }
 
+function showDirSize(dir, elem) {
+    $(elem).attr("onclick", null);
+    $(elem).removeClass("show");
+    $(elem).addClass("loading");
+    $(elem).text(" ");
+    $.ajax({
+        type: "GET",
+        url: '/handler?action=dirsize&dir=' + dir,
+        success: function(size) {
+            $(elem).removeClass("loading");
+            $(elem).text(size);
+        }
+    });
+}
+
 
 /*$(document).ready(function() {
     $(document).on('click', function(event) {

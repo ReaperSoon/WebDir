@@ -4,9 +4,7 @@ $uri_array = explode('/',$_SERVER['REQUEST_URI']);
 array_pop($uri_array);
 
 $pageName = urldecode(end($uri_array));
-?>
 
-<?php 
 $ch = curl_init("https://api.unsplash.com/photos/random?query=landscape&featured&orientation=landscape");
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, array(
@@ -78,32 +76,6 @@ curl_close($ch);
 			</thead>
 			<tbody class=""><?php
 
-	// Adds pretty filesizes
-			function GetDirectorySize($path){
-				$bytestotal = 0;
-				$path = realpath($path);
-				if($path!==false && $path!='' && file_exists($path)){
-					foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS)) as $object){
-						$bytestotal += $object->getSize();
-					}
-				}
-				return $bytestotal;
-			}
-
-			function pretty_filesize($file, $directory = false) {
-				$size = 0;
-				if ($directory) {
-					$size = GetDirectorySize("." . urldecode($_SERVER['REQUEST_URI']) . $file);
-				}else {
-					$size=filesize("." . urldecode($_SERVER['REQUEST_URI']) . $file);
-				}
-				if($size<1024){$size=$size." Bytes";}
-				elseif(($size<1048576)&&($size>1023)){$size=round($size/1024, 1)." KB";}
-				elseif(($size<1073741824)&&($size>1048575)){$size=round($size/1048576, 1)." MB";}
-				else{$size=round($size/1073741824, 1)." GB";}
-				return $size;
-			}
-
  	// Checks to see if veiwing hidden files is enabled
 			if($_SERVER['QUERY_STRING']=="hidden")
 				{$hide="";
@@ -133,6 +105,8 @@ curl_close($ch);
 
 	// Loops through the array of files
 			for($index=0; $index < $indexCount; $index++) {
+				$filePath = "." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index];
+				$isDir = is_dir($filePath);
 
 	// Decides if hidden files should be displayed, based on query above.
 				if(substr("$dirArray[$index]", 0, 1)!=$hide) {
@@ -144,8 +118,8 @@ curl_close($ch);
 	// Gets File Names
 					$name=$dirArray[$index];
 					$namehref=$dirArray[$index];
-					$modtime = date("M j Y g:i A", filemtime("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index]));
-					$timekey=date("YmdHis", filemtime("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index]));
+					$modtime = date("M j Y g:i A", filemtime($filePath));
+					$timekey=date("YmdHis", filemtime($filePath));
 
 
        // Array containing all embeddable videos exts
@@ -153,11 +127,11 @@ curl_close($ch);
        // Array containing all embeddable audio exts
 					$embeddableAudioExts = array( "mp3", "wav", "ogg" );
 	// Separates directories, and performs operations on those directories
-					if(is_dir("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index]))
+					if($isDir)
 					{
 						$extname="&lt;Directory&gt;";
 						$extn="&lt;Directory&gt;";
-						$size=pretty_filesize($dirArray[$index], true);
+						$size="show";//pretty_filesize($filePath, true);
 						$sizekey="0";
 						$class="dir";
 
@@ -176,7 +150,7 @@ curl_close($ch);
 	// File-only operations
 						else{
 			// Gets file extension
-							$extn=pathinfo("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index], PATHINFO_EXTENSION);
+							$extn=pathinfo($filePath, PATHINFO_EXTENSION);
 			// Prettifies file type
 							switch ($extn){
 								case "png": $extname="PNG Image"; break;
@@ -210,16 +184,16 @@ curl_close($ch);
 							}
 
 			// Gets and cleans up file size
-							$size=pretty_filesize($dirArray[$index]);
-							$sizekey=filesize("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index]);
+							$size=pretty_filesize($filePath);
+							$sizekey=filesize($filePath);
 						}
 
 	// Output
 						echo("<tr class='$class'>");
 						echo("<td><a href='./" . rawurlencode($namehref) . "' $favicon class='name'>$name</a></td>");
-						echo("<td><a href='./" . rawurlencode($namehref) . "'>$extname</a></td>");
-						echo("<td sorttable_customkey='$sizekey'><a href='./$namehref'>$size</a></td>");
-						echo("<td sorttable_customkey='$timekey'><a href='./$namehref'>$modtime</a></td>");
+						echo("<td><span class='ext'>$extname</span></td>");
+						echo("<td sorttable_customkey='$sizekey'><span class='size" . ($size === 'show' ? " show" : "")  . "'" . ($size === 'show' ? " onclick='showDirSize(\"".rawurlencode($filePath)."\", this)'" : "") . ">$size</span></td>");
+						echo("<td sorttable_customkey='$timekey'><span class='time'>$modtime</span></td>");
 						echo '<td class="item-menu">'.
 						(
 							(in_array($extn, $embeddableVideoExts)) ?
@@ -227,8 +201,8 @@ curl_close($ch);
 							((in_array($extn, $embeddableAudioExts)) ?
 								'<a class="embed" onclick="playAudio(\'./'.$namehref.'\')"></a>' : '')
 						).
-						((is_dir("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index])) ?
-							'<a href="/handler?action=download&dir=' . rawurlencode("." . urldecode($_SERVER['REQUEST_URI']) . $dirArray[$index]) . '" class="download"></a>' : '').
+						(($isDir) ?
+							'<a href="/handler?action=download&dir=' . rawurlencode($filePath) . '" class="download"></a>' : '').
 						'<a onclick="renameFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="edit"></a>'.
 						'<a onclick="deleteFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="delete"></a>'.
 						"</td>";

@@ -118,8 +118,22 @@ tr:hover td a {
 	color: #000;
 }
 
+td span {
+    padding: 5px 10px;
+}
 
+span.size.show {
+    cursor: pointer;
+}
 
+span.size.loading {
+    background-image: url(.images/loading-pacman.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 10px;
+    display: block;
+    height: 29px;
+}
 
 
 /* icons for file types (icons by famfamfam) */

@@ -1,4 +1,6 @@
 <?php
+include ".util.php";
+
 $uri_parts = explode('?', $_SERVER['REQUEST_URI'], 2);
 $uri = $uri_parts[0];
 $uri_array = explode('/',$uri);
