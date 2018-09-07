@@ -7,6 +7,8 @@ html {
     min-height: 100%;
     background-size: cover;
     background-attachment: fixed;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
 }
 
 body {
@@ -305,6 +307,10 @@ table tr.dir td:first-of-type a
     background-repeat: no-repeat;
     background-position: center center;
     padding: 0;
+}
+
+.item-menu a.vlc {
+    background-image: url('./.images/vlc.png');
 }
 
 .item-menu a.embed {

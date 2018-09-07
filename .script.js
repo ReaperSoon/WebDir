@@ -127,7 +127,7 @@ function showDirSize(dir, elem) {
     $(elem).text(" ");
     $.ajax({
         type: "GET",
-        url: '/handler?action=dirsize&dir=' + dir,
+        url: '/handler?action=dirsize&path=' + dir,
         success: function(size) {
             $(elem).removeClass("loading");
             $(elem).text(size);

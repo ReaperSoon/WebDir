@@ -19,10 +19,12 @@ if ($config->background->random == true) {
 
 ?>
 
-<html style="background-image: url('<?php echo $background; ?>')">
+<html>
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="/.favicon.ico">
+	<link rel="preload" as="image" href="<?php echo $background ?>">
+	</style>
 	<title>
 		<?php
 		if($pageName != "") {
@@ -43,7 +45,7 @@ if ($config->background->random == true) {
 	<script src="/.script.js"></script>
 </head>
 
-<body>
+<body style="background-image: url('<?php echo $background; ?>')">
 	<div id="container">
 		<h1>
 			<?php
@@ -81,16 +83,9 @@ if ($config->background->random == true) {
 			</thead>
 			<tbody class=""><?php
 
-			if($_SERVER['QUERY_STRING']=="hidden")
-				{$hide="";
-			$ahref="./";
-			$atext="Hide";}
-			else
-				{$hide=".";
-			$ahref="./?hidden";
-			$atext="Show";}
-
+			$hide=".";
 			$myDirectory=opendir("./".urldecode($_SERVER['REQUEST_URI']));
+			$dirArray = [];
 
 			while($entryName=readdir($myDirectory)) {
 				$dirArray[]=$entryName;
@@ -134,90 +129,95 @@ if ($config->background->random == true) {
 							$extn="&lt;Website&gt;";
 						}
 
-						if($name=="."){$name=". (Current Directory)"; $extn="&lt;System Dir&gt;"; $favicon=" style='background-image:url($namehref/.favicon.ico);'";}
-							if($name==".."){$name=".. (Parent Directory)"; $extn="&lt;System Dir&gt;";}
+					} 
+					else
+					{
+						$extn=pathinfo($filePath, PATHINFO_EXTENSION);
+						switch ($extn){
+							case "png": $extname="PNG Image"; break;
+							case "jpg": $extname="JPEG Image"; break;
+							case "jpeg": $extname="JPEG Image"; break;
+							case "svg": $extname="SVG Image"; break;
+							case "gif": $extname="GIF Image"; break;
+							case "ico": $extname="Windows Icon"; break;
+
+							case "txt": $extname="Text File"; break;
+							case "log": $extname="Log File"; break;
+							case "htm": $extname="HTML File"; break;
+							case "html": $extname="HTML File"; break;
+							case "xhtml": $extname="HTML File"; break;
+							case "shtml": $extname="HTML File"; break;
+							case "php": $extname="PHP Script"; break;
+							case "js": $extname="Javascript File"; break;
+							case "css": $extname="Stylesheet"; break;
+
+							case "pdf": $extname="PDF Document"; break;
+							case "xls": $extname="Spreadsheet"; break;
+							case "xlsx": $extname="Spreadsheet"; break;
+							case "doc": $extname="Microsoft Word Document"; break;
+							case "docx": $extname="Microsoft Word Document"; break;
+
+							case "zip": $extname="ZIP Archive"; break;
+							case "htaccess": $extname="Apache Config File"; break;
+							case "exe": $extname="Windows Executable"; break;
+
+							default: if($extn!=""){$extname=strtoupper($extn)." File";} else{$extname="Unknown";} break;
 						}
 
-						else{
-							$extn=pathinfo($filePath, PATHINFO_EXTENSION);
-							switch ($extn){
-								case "png": $extname="PNG Image"; break;
-								case "jpg": $extname="JPEG Image"; break;
-								case "jpeg": $extname="JPEG Image"; break;
-								case "svg": $extname="SVG Image"; break;
-								case "gif": $extname="GIF Image"; break;
-								case "ico": $extname="Windows Icon"; break;
-
-								case "txt": $extname="Text File"; break;
-								case "log": $extname="Log File"; break;
-								case "htm": $extname="HTML File"; break;
-								case "html": $extname="HTML File"; break;
-								case "xhtml": $extname="HTML File"; break;
-								case "shtml": $extname="HTML File"; break;
-								case "php": $extname="PHP Script"; break;
-								case "js": $extname="Javascript File"; break;
-								case "css": $extname="Stylesheet"; break;
-
-								case "pdf": $extname="PDF Document"; break;
-								case "xls": $extname="Spreadsheet"; break;
-								case "xlsx": $extname="Spreadsheet"; break;
-								case "doc": $extname="Microsoft Word Document"; break;
-								case "docx": $extname="Microsoft Word Document"; break;
-
-								case "zip": $extname="ZIP Archive"; break;
-								case "htaccess": $extname="Apache Config File"; break;
-								case "exe": $extname="Windows Executable"; break;
-
-								default: if($extn!=""){$extname=strtoupper($extn)." File";} else{$extname="Unknown";} break;
-							}
-
-							$size=pretty_filesize($filePath);
-							$sizekey=filesize($filePath);
-						}
-
-						echo("<tr class='$class'>");
-						echo("<td><a href='./" . rawurlencode($namehref) . "' $favicon class='name'>$name</a></td>");
-						echo("<td><span class='ext'>$extname</span></td>");
-						echo("<td sorttable_customkey='$sizekey'><span class='size" . ($size === 'show' ? " show" : "")  . "'" . ($size === 'show' ? " onclick='showDirSize(\"".rawurlencode($filePath)."\", this)'" : "") . ">$size</span></td>");
-						echo("<td sorttable_customkey='$timekey'><span class='time'>$modtime</span></td>");
-						echo '<td class="item-menu">'.
-						(
-							(in_array($extn, $embeddableVideoExts)) ?
-							'<a class="embed" onclick="playVideo(\'./'.$namehref.'\')"></a>' :
-							((in_array($extn, $embeddableAudioExts)) ?
-								'<a class="embed" onclick="playAudio(\'./'.$namehref.'\')"></a>' : '')
-						).
-						(($isDir) ?
-							'<a href="/handler?action=download&dir=' . rawurlencode($filePath) . '" class="download"></a>' : '').
-						'<a onclick="renameFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="edit"></a>'.
-						'<a onclick="deleteFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="delete"></a>'.
-						"</td>";
-						echo("</tr>");
+						$size=pretty_filesize($filePath);
+						$sizekey=filesize($filePath);
 					}
+
+					echo("<tr class='$class'>");
+					/* Name */
+					echo("<td><a href='./" . rawurlencode($namehref) . "' $favicon class='name'>$name</a></td>");
+					/* Filetype */
+					echo("<td><span class='ext'>$extname</span></td>");
+					/* Size */
+					echo("<td sorttable_customkey='$sizekey'><span class='size" . ($size === 'show' ? " show" : "")  . "'" . ($size === 'show' ? " onclick='showDirSize(\"".rawurlencode($filePath)."\", this)'" : "") . ">$size</span></td>");
+					/* Date */
+					echo("<td sorttable_customkey='$timekey'><span class='time'>$modtime</span></td>");
+					/* Menu */
+					echo '<td class="item-menu">'.
+					/* Menu - VLC */
+					((($isDir && containsAudioOrVideo($filePath)) || in_array($extn, array_merge($videoExts, $audioExts))) ? '<a href="/handler?action=m3u&path=' . rawurlencode($filePath) . '" class="vlc"></a>' : '').
+					/* Menu - Embed */
+					(
+						(in_array($extn, $embeddableVideoExts)) ?
+						'<a class="embed" onclick="playVideo(\'./'.$namehref.'\')"></a>' :
+						((in_array($extn, $embeddableAudioExts)) ?
+							'<a class="embed" onclick="playAudio(\'./'.$namehref.'\')"></a>' : '')
+					).
+					/* Menu - Download */
+					(($isDir) ? '<a href="/handler?action=download&path=' . rawurlencode($filePath) . '" class="download"></a>' : '').
+					/* Menu - Rename */
+					'<a onclick="renameFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="edit"></a>'.
+					/* Menu - Delete */
+					'<a onclick="deleteFile(\'' . "." . urldecode($_SERVER['REQUEST_URI'] . '\', \'' . $dirArray[$index]) . '\')" class="delete"></a>'.
+					"</td>";
+					echo("</tr>");
 				}
-				?>
+			}
+			?>
 
-			</tbody>
-		</table>
-		<div id="upload-preview" class="dropzone"></div>
-		<div class="media-container">
-			<div id="video-name"></div>
-			<video id="video-player" src="" controls>
-				Votre navigateur n'est pas compatible avec les lecteurs HTML5, merci de télécharger un navigateur décent...
-			</video>
-			<audio id="audio-player" src="" controls>
-				Votre navigateur n'est pas compatible avec les lecteurs HTML5, merci de télécharger un navigateur décent...
-			</audio>
-			<div>
-				<!--<h2><?php echo("<a href='$ahref'>$atext hidden files</a>"); ?></h2>-->
-			</div>
-		</div>
+		</tbody>
+	</table>
+	<div id="upload-preview" class="dropzone"></div>
+	<div class="media-container">
+		<div id="video-name"></div>
+		<video id="video-player" src="" controls>
+			Votre navigateur n'est pas compatible avec les lecteurs HTML5, merci de télécharger un navigateur décent...
+		</video>
+		<audio id="audio-player" src="" controls>
+			Votre navigateur n'est pas compatible avec les lecteurs HTML5, merci de télécharger un navigateur décent...
+		</audio>
 	</div>
+</div>
 
-	<?php
-	if ($config->background->random == true && $config->background->showCopyright == true) {
-		echo "<span class=\"bg-copyright\"><a href=\"".$unsplash->links->html."\">Photo</a> by <a href=\"".$unsplash->user->links->html."\">".$unsplash->user->name."</a> on <a href=\"https://unsplash.com\">Unsplash</a></span>";
-	}
-	?>
+<?php
+if ($config->background->random == true && $config->background->showCopyright == true) {
+	echo "<span class=\"bg-copyright\"><a href=\"".$unsplash->links->html."\">Photo</a> by <a href=\"".$unsplash->user->links->html."\">".$unsplash->user->name."</a> on <a href=\"https://unsplash.com\">Unsplash</a></span>";
+}
+?>
 </body>
 </html>
