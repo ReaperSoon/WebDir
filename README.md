@@ -96,7 +96,7 @@ git stash pop
 ## Configuration file
 
 To configure your WebDir you can edit .config file:
-```json
+```
 {
    // The bottom left menu
    "menu": [
