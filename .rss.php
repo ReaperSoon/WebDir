@@ -6,10 +6,10 @@ header('Content-type: text/xml');
 	files.
 
 */
-$feedName = "Steve Alibaba RSS feed";
+$feedName = "Alibaba RSS feed";
 $feedDesc = "Feed for the my alibaba";
-$feedURL = "https://alibaba.stevecohen.fr/rss";
-$feedBaseURL = "https://alibaba.stevecohen.fr/"; // must end in trailing forward slash (/).
+$feedBaseURL = $hostname . '/';
+$feedURL = $feedBaseURL . 'rss';
 ?><<?= '?'; ?>xml version="1.0"<?= '?'; ?>>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
 	<channel>

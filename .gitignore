@@ -4,9 +4,17 @@
 # But not these files...
 !.error.php
 !.gitignore
+!.handler.php
 !.images
-!.images/*
 !.index.php
+!.list.php
+!.rss.php
+!.script.js
 !.sorttable.js
 !.style.css
-!.video.js
+!.upload.php
+!.favicon.ico
+!README.md
+!CHANGELOG.md
+!CONTRIBUTORS
+!LICENSE

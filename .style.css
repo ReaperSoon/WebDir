@@ -7,6 +7,8 @@ html {
     min-height: 100%;
     background-size: cover;
     background-attachment: fixed;
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
+    -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
 }
 
 body {
@@ -118,8 +120,22 @@ tr:hover td a {
 	color: #000;
 }
 
+td span {
+    padding: 5px 10px;
+}
 
+span.size.show {
+    cursor: pointer;
+}
 
+span.size.loading {
+    background-image: url(.images/loading-pacman.svg);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 10px;
+    display: block;
+    height: 29px;
+}
 
 
 /* icons for file types (icons by famfamfam) */
@@ -293,6 +309,10 @@ table tr.dir td:first-of-type a
     padding: 0;
 }
 
+.item-menu a.vlc {
+    background-image: url('./.images/vlc.png');
+}
+
 .item-menu a.embed {
     background-image: url('./.images/embed.png');
 }
@@ -307,4 +327,15 @@ table tr.dir td:first-of-type a
 
 .item-menu a.delete {
     background-image: url('./.images/delete.png');
+}
+
+.bg-copyright {
+    background: rgba(255, 255, 255, .4);
+    padding: 5px;
+    color: black;
+}
+
+.bg-copyright a {
+    color: black;
+    text-decoration: underline;
 }
