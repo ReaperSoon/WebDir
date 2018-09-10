@@ -4,18 +4,14 @@
 }
 
 body {
+	color: #333;
+	font: 14px Sans-Serif;
+	padding: 50px;
     min-height: 100%;
     background-size: cover;
     background-attachment: fixed;
     filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='.myBackground.jpg', sizingMethod='scale');
     -ms-filter: "progid:DXImageTransform.Microsoft.AlphaImageLoader(src='myBackground.jpg', sizingMethod='scale')";
-}
-
-body {
-	color: #333;
-	font: 14px Sans-Serif;
-	padding: 50px;
-	background: transparent;
 }
 
 h1 {
