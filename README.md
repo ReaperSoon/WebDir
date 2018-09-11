@@ -10,7 +10,7 @@ All files used by WebDir are hidden (a dot before the name)
 
 ### Screenshots
 
-[![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042605545612824615001890.png)](http://nsm07.casimages.com/img/2017/04/26//17042605545612824615001890.png) [![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042606061712824615001943.png)](http://nsm07.casimages.com/img/2017/04/26//17042606061712824615001943.png)
+[![N|Solid](https://nsm09.casimages.com/img/2018/09/11//mini_18091105205412824615887913.png)](https://nsm09.casimages.com/img/2018/09/11//18091105205412824615887913.png) [![N|Solid](https://nsm09.casimages.com/img/2018/09/11//mini_18091105244212824615887914.png)](https://nsm09.casimages.com/img/2018/09/11//18091105244212824615887914.png) [![N|Solid](https://nsm09.casimages.com/img/2018/09/11//mini_18091105270912824615887919.png)](https://nsm09.casimages.com/img/2018/09/11//18091105270912824615887919.png)
 
 ### Demo
 https://www.youtube.com/watch?v=witBmEQnzqw
