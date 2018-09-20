@@ -10,7 +10,7 @@ All files used by WebDir are hidden (a dot before the name)
 
 ### Screenshots
 
-[![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042605545612824615001890.png)](http://nsm07.casimages.com/img/2017/04/26//17042605545612824615001890.png) [![N|Solid](http://nsm07.casimages.com/img/2017/04/26//mini_17042606061712824615001943.png)](http://nsm07.casimages.com/img/2017/04/26//17042606061712824615001943.png)
+[![N|Solid](https://nsm09.casimages.com/img/2018/09/11//mini_18091105205412824615887913.png)](https://nsm09.casimages.com/img/2018/09/11//18091105205412824615887913.png) [![N|Solid](https://nsm09.casimages.com/img/2018/09/11//mini_18091105244212824615887914.png)](https://nsm09.casimages.com/img/2018/09/11//18091105244212824615887914.png) [![N|Solid](https://nsm09.casimages.com/img/2018/09/11//mini_18091105270912824615887919.png)](https://nsm09.casimages.com/img/2018/09/11//18091105270912824615887919.png)
 
 ### Demo
 https://www.youtube.com/watch?v=witBmEQnzqw
@@ -21,12 +21,13 @@ You need to have MAMP (OS X), LAMP (Linux) or WAMP (Windows) installed
 
 Linux
 ```sh
-$ sudo apt-get install apache2 php5 libapache2-mod-php5
-```
-
-You need to enable mod_rewrite
-```sh
-$ sudo a2enmod rewrite
+sudo apt-get install apache2 php5 php5-mysql
+#You need to enable mod_rewrite
+sudo a2enmod rewrite
+#PHP modules
+sudo apt-get install php5-curl
+#Restart apache
+sudo service apache2 restart
 ```
 
 NB: You do not need MySQL
@@ -39,17 +40,19 @@ To install WebDir you need to clone this repository on your web directory.
 It's important to clone directly in your web directory because the git files need to be in your directory root
 
 ```sh
-$ git clone http://git.stevecohen.fr/public-projects/webdir.git /var/www
+cd /var/www
+sudo git clone https://github.com/stevecohenfr/WebDir.git
+sudo chown -R www-data:www-data WebDir
 ```
 
 Configure your virtualhost (replace /var/www by your directory path)
 
 ```xml
 <VirtualHost *:80>
-    DocumentRoot /var/www
-    ServerName mydomain.ltd
+    DocumentRoot /var/www/WebDir
+    ServerName %domain%
 
-    <Directory />
+    <Directory /var/www/WebDir>
         <IfModule mod_rewrite.c>
             RewriteCond %{REQUEST_FILENAME} !-f
             RewriteCond %{REQUEST_URI} !index
@@ -63,24 +66,62 @@ Configure your virtualhost (replace /var/www by your directory path)
         Allow from all
     </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/error.log
-    CustomLog ${APACHE_LOG_DIR}/access.log combined
+    ErrorLog ${APACHE_LOG_DIR}/webdir_error.log
+    CustomLog ${APACHE_LOG_DIR}/webdir_access.log combined
 </VirtualHost>
 ```
 
+Replace `%domain%` by your domain.
+If you installed WebDir in other place than /var/www/WebDir pease update `DocumentRoot /var/www/WebDir` and `<Directory /var/www/WebDir>`
 
 ## Update WebDir
 
 To update WebDir you just need to pull
 
 ```sh
-$ cd /var/www && git pull
+cd /var/www/WebDir && git pull
+```
+
+If you modified some files that have been updated like .config you may need to stash your changes, pull, unstash and resolve conflicts:
+
+```sh
+cd /var/www/WebDir
+git stash
+git pull
+git stash pop
+# If you have conflics, just open the file(s) with your favorite editor and resolve conflicts
+# Your WebDir is up to date !
+```
+
+## Configuration file
+
+To configure your WebDir you can edit .config file:
+```
+{
+   // The bottom left menu
+   "menu": [
+      {
+         "name": "Private access", // Name of the button (on mouse hover)
+         "image": "https://cdn4.iconfinder.com/data/icons/small-n-flat/24/lock-16.png", // Icon of the button
+         "url": "https://jsfiddle.net/erikasaves/8p1weyud/2/embedded/result/dark/", // The link of the button
+         "tab": false, // If true, will open the link in new tab
+         "iframe": true // It true, will open the link inside a popin inside the page
+      },
+      ... // Add as many menu item as you want
+   ],
+   // The background configuration
+   "background": {
+      "random": true, // If true, the background url will be ignored will change at every page load using unsplash.com API
+      "url": "https://images.unsplash.com/photo-1460602594182-8568137446ce?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=c6a89cf0d31c8ed23b35aaf9a119a9f5&auto=format&fit=crop&w=2255&q=80", // The background image URL (if random is false)
+      "showCopyright": true // Show background copyright at bottom of page (please think about the artists)
+   },
+   "enableRSS": true // Enable the RSS page (button at top right of WebDir)
+}
 ```
 
 ## Security
 
-To modify your WebDir security options, edit .htaccess :
-
+WebDir allow Basic Auth (username/password) and whitelisted ip with in .htaccess file.
 
 The default credentials :
 
@@ -89,10 +130,28 @@ Username: webdir
 Password: webdir
 ```
 
-Moreover you can allow access by IP.
-127.0.0.1 is allowed by default. Edit .htaccess to add/remove IPs
+Default whitelisted IP :
+```
+127.0.0.1
+```
 
-To generate your credentials you can use [this online tool](http://www.htaccesstools.com/htpasswd-generator/)
+You can :
+
+Add user/passwords
+```
+sudo htpasswd -b .htpasswd <username> <password>
+```
+You also can use [this online tool](http://www.htaccesstools.com/htpasswd-generator/)
+
+Add whitelisted IP:
+Edit .htaccess file :
+```
+<RequireAny>
+    Require valid-user
+    Require ip 127.0.0.1
+    # Add another ip here like the line above
+</RequireAny>
+```
 
 ## Built With
 
