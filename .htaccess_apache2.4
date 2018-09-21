@@ -9,11 +9,9 @@ ErrorDocument 500 /.error.php
 ErrorDocument 502 /.error.php
 ErrorDocument 504 /.error.php
 
-DirectoryIndex index.htm index.html index.shtml index.php default.php .index.php
-
 AuthType Basic
 AuthName "Protected Area"
-AuthUserFile /var/www/.htpasswd
+AuthUserFile /var/www/webdir/.htpasswd
 <RequireAny>
     Require valid-user
     Require ip 127.0.0.1

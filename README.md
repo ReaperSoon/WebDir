@@ -40,26 +40,42 @@ To install WebDir you need to clone this repository on your web directory.
 It's important to clone directly in your web directory because the git files need to be in your directory root
 
 ```sh
-cd /var/www
-sudo git clone https://github.com/stevecohenfr/WebDir.git
-sudo chown -R www-data:www-data WebDir
+cd /var/www && git clone http://git.stevecohen.fr/public-projects/webdir.git
+sudo chown -R www-data:www-data webdir
 ```
 
-Configure your virtualhost (replace /var/www by your directory path)
+Configure your virtualhost (replace %domain% by own domain)
 
 ```xml
 <VirtualHost *:80>
-    DocumentRoot /var/www/WebDir
+    DocumentRoot /var/www/webdir
     ServerName %domain%
 
-    <Directory /var/www/WebDir>
+    # To enable WebDav uncomment the lines above
+    # and enable this php modules : dav dav_fs dav_lock
+    # sudo a2enmod dav dav_fs dav_lock && sudo service apache2 restart
+    #
+    # You will access your WebDav at %domain%/webdav
+    # with your .htpasswd user/password
+    #Alias /webdav /var/www/webdir
+    #<Location /webdav>
+    #    DAV On
+    #    # Do not uncomment this line if you don't use SSL (https)
+    #    SSLRequireSSL
+    #    AuthType Basic
+    #    AuthName webdav
+    #    AuthUserFile /var/www/webdir/.htpasswd
+    #    Require valid-user
+    #</Location>
+
+    <Directory /var/www/webdir/>
         <IfModule mod_rewrite.c>
             RewriteCond %{REQUEST_FILENAME} !-f
             RewriteCond %{REQUEST_URI} !index
+        RewriteCond %{REQUEST_URI} !webdav
             RewriteEngine on
             RewriteRule ^(.*)$ /.index.php
         </IfModule>
-        #Options FollowSymLinks
         Options Indexes FollowSymLinks Includes ExecCGI
         AllowOverride All
         Order deny,allow
@@ -71,21 +87,56 @@ Configure your virtualhost (replace /var/www by your directory path)
 </VirtualHost>
 ```
 
-Replace `%domain%` by your domain.
-If you installed WebDir in other place than /var/www/WebDir pease update `DocumentRoot /var/www/WebDir` and `<Directory /var/www/WebDir>`
+Rename .htaccess_apacheX.X to .htaccess:
+
+```sh
+# For apache 2.2
+mv .htaccess_apache2.2 .htaccess
+```
+
+```sh
+# For apache 2.4
+mv .htaccess_apache2.4 .htaccess
+```
+
+## Security
+
+WebDir allow Basic Auth (username/password) and whitelisted ip with in .htaccess file.
+
+The default credentials :
+
+```
+Username: webdir
+Password: webdir
+```
+
+Default whitelisted IP :
+```
+127.0.0.1
+```
+
+You can :
+
+Add user/passwords
+```
+cd /var/www/webdir
+sudo htpasswd -b .htpasswd <username>
+```
+You also can use [this online tool](http://www.htaccesstools.com/htpasswd-generator/)
+
 
 ## Update WebDir
 
 To update WebDir you just need to pull
 
 ```sh
-cd /var/www/WebDir && git pull
+cd /var/www/webdir && git pull
 ```
 
 If you modified some files that have been updated like .config you may need to stash your changes, pull, unstash and resolve conflicts:
 
 ```sh
-cd /var/www/WebDir
+cd /var/www/webdir
 git stash
 git pull
 git stash pop
@@ -118,44 +169,13 @@ To configure your WebDir you can edit .config file:
    "enableRSS": true // Enable the RSS page (button at top right of WebDir)
 }
 ```
+Remove (do not add) comments from your .config file to be valid json.
 
-## Security
-
-WebDir allow Basic Auth (username/password) and whitelisted ip with in .htaccess file.
-
-The default credentials :
-
-```
-Username: webdir
-Password: webdir
-```
-
-Default whitelisted IP :
-```
-127.0.0.1
-```
-
-You can :
-
-Add user/passwords
-```
-sudo htpasswd -b .htpasswd <username> <password>
-```
-You also can use [this online tool](http://www.htaccesstools.com/htpasswd-generator/)
-
-Add whitelisted IP:
-Edit .htaccess file :
-```
-<RequireAny>
-    Require valid-user
-    Require ip 127.0.0.1
-    # Add another ip here like the line above
-</RequireAny>
-```
 
 ## Built With
 
 * [PHP](https://secure.php.net/) - Language
+* [DropZone](https://www.dropzonejs.com/) - Javascript library for file upload with drag&drop
 
 ## Contributing
 
@@ -167,9 +187,11 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Steve Cohen** - *Initial work* - [PurpleBooth](http://git.stevecohen.fr/explore/projects)
+* Made with ❤️ by [**SteveCohenFr**](https://github.com/stevecohenfr)
 
-See also the list of [contributors](http://git.stevecohen.fr/public-projects/webdir/CONTRIBUTORS) who participated in this project.
+*Inspired by* - [KEITH KNITTEL](https://css-tricks.com/styling-a-server-generated-file-directory/)
+
+See also the list of [contributors](https://github.com/stevecohenfr/WebDir/blob/master/CONTRIBUTORS) who participated in this project.
 
 ## License
 
@@ -178,8 +200,3 @@ This project is licensed under the MIT License
 [MIT License](https://choosealicense.com/licenses/mit/)
 
 Copyright (c) 2017 Steve Cohen
-
-
-## Acknowledgments
-
-* Based on [KEITH KNITTEL](https://css-tricks.com/styling-a-server-generated-file-directory/) work

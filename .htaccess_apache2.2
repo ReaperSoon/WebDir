@@ -9,13 +9,11 @@ ErrorDocument 500 /.error.php
 ErrorDocument 502 /.error.php
 ErrorDocument 504 /.error.php
 
-DirectoryIndex index.htm index.html index.shtml index.php default.php .index.php
-
 Order allow,deny
 AuthType Basic
 AuthName "Restricted Area"
 AuthBasicProvider file
-AuthUserFile /var/www/.htpasswd
+AuthUserFile /var/www/webdir/.htpasswd
 Require valid-user
 Satisfy any
 Allow from 127.0.0.1
