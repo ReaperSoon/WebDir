@@ -38,7 +38,11 @@ if (isset($_GET['action'])) {
             $parts = explode('/', $path);
             $name = $parts[count($parts)-1];
 
-            $files = getDirContents($path, true, array_merge($videoExts, $audioExts));
+            if (is_dir($path)) {
+                $files = getDirContents($path, true, array_merge($videoExts, $audioExts));
+            }else {
+                $files = [$path];
+            }
 
             header("Content-type: audio/x-mpegurl");
             header("Content-Disposition: inline; filename=".$name.".m3u");
