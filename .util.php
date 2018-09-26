@@ -49,15 +49,18 @@ function getDirContents($dir, $onlyFiles = false, $extFilter = array(), &$result
 function containsAudioOrVideo($dir) {
 	$files = scandir($dir);
 	$videoExts = ["3g2","3gp","aaf","asf","avchd","avi","drc","flv","m2v","m4p","m4v","mkv","mng","mov","mp2","mp4","mpe","mpeg","mpg","mpv","mxf","nsv","ogg","ogv","qt","rm","rmvb","roq","svi","vob","webm","wmv","yuv"];
-$audioExts = ["wav","bwf","raw","aiff","flac","m4a","pac","tta","wv","ast","aac","mp2","mp3","mp4","amr","s3m","3gp","act","au","dct","dss","gsm","m4p","mmf","mpc","ogg","oga","opus","ra","sln","vox"];
+    $audioExts = ["wav","bwf","raw","aiff","flac","m4a","pac","tta","wv","ast","aac","mp2","mp3","mp4","amr","s3m","3gp","act","au","dct","dss","gsm","m4p","mmf","mpc","ogg","oga","opus","ra","sln","vox"];
 
     foreach($files as $key => $value){
         $path = $dir.DIRECTORY_SEPARATOR.$value;
         if(!is_dir($path)) {
-        	if (in_array(pathinfo($path, PATHINFO_EXTENSION), $videoExts) || in_array(pathinfo($path, PATHINFO_EXTENSION), $audioExts))
-            return true;
+        	if (in_array(pathinfo($path, PATHINFO_EXTENSION), $videoExts) || in_array(pathinfo($path, PATHINFO_EXTENSION), $audioExts)) {
+        	    return true;
+        	}
         } else if($value != "." && $value != "..") {
-            return containsAudioOrVideo($path);
+            if (containsAudioOrVideo($path)) {
+                return true;
+            }
         }
     }
     return false;
