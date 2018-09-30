@@ -96,7 +96,9 @@ th a {
 
 td:first-of-type > a {
 	background: url(./.images/file.png) no-repeat 10px 50%;
-	padding-left: 35px;
+	background-repeat: no-repeat;
+        background-position: 10px 50%;
+        background-size: auto 20px;
 }
 th:first-of-type {
 	padding-left: 50px;
