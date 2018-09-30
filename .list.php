@@ -30,7 +30,7 @@ if ($config->background->random == true) {
 		if($pageName != "") {
 			echo($pageName);
 		} else {
-			echo "WebDir";
+			echo $config->title;
 		}
 		?>
 	</title>
@@ -123,9 +123,9 @@ if ($config->background->random == true) {
 						$sizekey="0";
 						$class="dir";
 
-						if(file_exists("$namehref/favicon.ico"))
+						if(file_exists("$namehref/.favicon.ico"))
 						{
-							$favicon=" style='background-image:url($namehref/favicon.ico);'";
+							$favicon=" style='background-image:url($namehref/.favicon.ico);'";
 							$extn="&lt;Website&gt;";
 						}
 
