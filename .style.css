@@ -99,6 +99,7 @@ td:first-of-type > a {
 	background-repeat: no-repeat;
         background-position: 10px 50%;
         background-size: auto 20px;
+	padding-left: 35px;
 }
 th:first-of-type {
 	padding-left: 50px;
