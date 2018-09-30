@@ -120,7 +120,7 @@ You can :
 Add user/passwords
 ```
 cd /var/www/webdir
-sudo htpasswd -b .htpasswd <username>
+sudo htpasswd .htpasswd <username>
 ```
 You also can use [this online tool](http://www.htaccesstools.com/htpasswd-generator/)
 
