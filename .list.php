@@ -52,7 +52,7 @@ if ($config->background->random == true) {
 			if($pageName != "") {
 				echo($pageName);
 			} else {
-				echo "Alibaba Directory";
+				echo $config->title;
 			}
 			?>
 		</h1>
