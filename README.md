@@ -163,13 +163,13 @@ To contribute please use pull request and if your development is clean and usefu
 
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](http://git.stevecohen.fr/public-projects/webdir/tags). 
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/stevecohenfr/WebDir/tags). 
 
 ## Authors
 
-* **Steve Cohen** - *Initial work* - [PurpleBooth](http://git.stevecohen.fr/explore/projects)
+* **Steve Cohen**
 
-See also the list of [contributors](http://git.stevecohen.fr/public-projects/webdir/CONTRIBUTORS) who participated in this project.
+See also the list of [contributors](https://github.com/stevecohenfr/WebDir/blob/master/CONTRIBUTORS) who participated in this project.
 
 ## License
 
